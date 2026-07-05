@@ -26,8 +26,8 @@ pipeline {
             // Logs into Docker Hub and pushes the built image securely.
             steps {
                 script {
-                    docker.withRegistry('', env.DOCKER_HUB_CRED_USR) {
-                        sh "docker push ${IMAGE_NAME}"
+                    docker.withRegistry('https://index.docker.io/v1/', '7294d94a-3b0a-40f7-b2d6-4c2159d6393e') {
+                sh "docker push ${IMAGE_NAME}"
                     }
                 }
             }
