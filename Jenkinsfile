@@ -8,6 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                // Ensure 'github-creds' exists in your Jenkins credentials
                 git credentialsId: 'github-creds', url: 'https://github.com/cloudfighter72/wk6_d2_jenkins.git', branch: 'main'
             }
         }
@@ -21,8 +22,8 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    // Using the correct ID: d8bac7ce-aa69-4aaa-a6f1-1310e45524e5
-                    withCredentials([usernamePassword(credentialsId: 'd8bac7ce-aa69-4aaa-a6f1-1310e45524e5', passwordVariable: 'DOCKER_HUB_PWD', usernameVariable: 'DOCKER_HUB_USR')]) {
+                    // Using the new simple ID: docker-hub-login
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-login', passwordVariable: 'DOCKER_HUB_PWD', usernameVariable: 'DOCKER_HUB_USR')]) {
                         sh "echo $DOCKER_HUB_PWD | docker login -u $DOCKER_HUB_USR --password-stdin"
                         sh "docker push ${IMAGE_NAME}"
                     }
