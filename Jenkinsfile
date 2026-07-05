@@ -24,7 +24,8 @@ pipeline {
                 script {
                     // Using the new simple ID: docker-hub-login
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-login', passwordVariable: 'DOCKER_HUB_PWD', usernameVariable: 'DOCKER_HUB_USR')]) {
-                        sh "echo $DOCKER_HUB_PWD | docker login -u $DOCKER_HUB_USR --password-stdin"
+                        // Using single quotes to prevent insecure interpolation
+                        sh 'echo "$DOCKER_HUB_PWD" | docker login -u "$DOCKER_HUB_USR" --password-stdin'
                         sh "docker push ${IMAGE_NAME}"
                     }
                 }
